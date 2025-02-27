@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  descriptio: MyText
+  price: 9.99
+  quantity_available: 1
+  restock_level: 1
+  disabled_at: 2025-02-26 16:20:49
+
+two:
+  name: MyString
+  descriptio: MyText
+  price: 9.99
+  quantity_available: 1
+  restock_level: 1
+  disabled_at: 2025-02-26 16:20:49
