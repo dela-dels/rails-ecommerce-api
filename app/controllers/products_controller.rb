@@ -1,16 +1,23 @@
 class ProductsController < ApplicationController
+  Rails.application.routes.default_url_options[:host] = "localhost:3000"
   before_action :set_product, only: %i[ show update destroy ]
 
   # GET /products
   def index
-    @products = Product.all
+    @products = Product.all.with_attached_images
 
-    render json: @products
+    render json: JsonApiResponse.render(
+      data: @products,
+      status: 200
+    )
   end
 
   # GET /products/1
   def show
-    render json: @product
+    render json: JsonApiResponse.render(
+      data: @product,
+      status: 200
+    )
   end
 
   # POST /products
@@ -18,18 +25,30 @@ class ProductsController < ApplicationController
     @product = Product.new(product_params)
 
     if @product.save
-      render json: @product, status: :created, location: @product
+      render json: JsonApiResponse.render(
+        data: @product,
+        status: 200
+      )
     else
-      render json: @product.errors, status: :unprocessable_entity
+      render json: JsonApiResponse.render(
+        errors: @product.errors,
+        status: 422
+      )
     end
   end
 
   # PATCH/PUT /products/1
   def update
     if @product.update(product_params)
-      render json: @product
+      render json: JsonApiResponse.render(
+        data: @product,
+        status: 200
+      )
     else
-      render json: @product.errors, status: :unprocessable_entity
+      render json: JsonApiResponse.render(
+      errors: @product.errors,
+      status: 422
+    )
     end
   end
 
@@ -46,6 +65,6 @@ class ProductsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def product_params
-      params.expect(product: [ :name, :descriptio, :price, :quantity_available, :restock_level, :disabled_at ])
+      params.permit([ :name, :description, :price, :quantity_available, :restock_level, :disabled_at, :images ])
     end
 end

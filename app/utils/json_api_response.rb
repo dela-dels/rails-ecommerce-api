@@ -1,11 +1,10 @@
 class JsonApiResponse
-  def self.render(success:, data:, status:, errors: [])
+  def self.render(success: true, data: [], status:, errors: [])
     {
       success: success,
       errors: errors,
       data: data,
       status: status
-      # location: location
     }
   end
 end
