@@ -4,12 +4,23 @@ class ProductsController < ApplicationController
 
   # GET /products
   def index
-    @products = Product.all.with_attached_images
+    begin
+      # @products = Product.with_attached_images
+      #                   .includes(:category, :supplier, :reviews)
+      #                   .all
+      @products = Product.with_attached_images.all
 
-    render json: JsonApiResponse.render(
-      data: @products,
-      status: 200
-    )
+      render json: JsonApiResponse.render(
+        data: @products,
+        status: 200
+      )
+    rescue StandardError => e
+      render json: JsonApiResponse.render(
+        success: false,
+        errors: [ e.message ],
+        status: 500
+      )
+    end
   end
 
   # GET /products/1

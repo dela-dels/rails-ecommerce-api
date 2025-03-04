@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_27_112118) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_04_160906) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -39,6 +39,30 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_27_112118) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "product_option_values", force: :cascade do |t|
+    t.text "name"
+    t.datetime "disabled_at"
+    t.string "value"
+    t.decimal "price"
+    t.integer "available_stock"
+    t.integer "restock_level"
+    t.integer "product_option_id", null: false
+    t.integer "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_product_option_values_on_product_id"
+    t.index ["product_option_id"], name: "index_product_option_values_on_product_option_id"
+  end
+
+  create_table "product_options", force: :cascade do |t|
+    t.text "name"
+    t.string "description"
+    t.datetime "disabled_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_product_options_on_name", unique: true
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -62,4 +86,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_27_112118) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "product_option_values", "product_options"
+  add_foreign_key "product_option_values", "products"
 end

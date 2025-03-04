@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  # namespace :products do
+  #   scope module: :products do
+  #     resources :options, path: "options"
+  #   end
+  # end
+  resources :product_options
   resources :products
   resources :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
